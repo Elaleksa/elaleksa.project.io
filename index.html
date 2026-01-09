@@ -1,121 +1,135 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Elizaveta Aleksandrova | QA Engineer</title>
-    <style>
-        body {
-          font-family: Arial, sans-serif;
-          color: #333;
-          background-color: #fff;
-          margin: 0;
-          padding: 0;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          height: 100vh;
-          text-align: center;
-        }
-        .container {
-          max-width: 600px;
-        }
-        .social-media {
-          margin-top: 20px;
-        }
-        .social-media a {
-          margin: 0 10px;
-          color: #333;
-          text-decoration: none;
-          font-size: 24px;
-        }
-        .social-media a:hover {
-          color: #555;
-        }
-        .form-container {
-          margin-top: 30px;
-        }
-        form input[type="text"] {
-          padding: 8px;
-          width: 250px;
-          border: 1px solid #ccc;
-          border-radius: 6px;
-        }
-        form input::placeholder {
-          color: #999;
-          font-size: 14px;
-          font-style: italic;
-        }
-        form button {
-          margin-left: 10px;
-          padding: 8px 15px;
-          border: none;
-          border-radius: 6px;
-          background-color: #333;
-          color: #fff;
-          cursor: pointer;
-        }
-        form button:hover {
-          background-color: #555;
-        }
-        .success-message {
-          margin-top: 15px;
-          color: #006400;
-          font-weight: bold;
-          display: none;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Elizaveta Aleksandrova | QA Engineer</title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="styles.css" />
+
+  <!-- FontAwesome -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+  />
 </head>
+
 <body>
-<div class="container">
-    <h1>Elizaveta Aleksandrova</h1>
-    <h3>
-      QA Engineer | 4 years experience in IAM Testing | 
-      <a href="istqb.pdf" target="_blank" style="color:#333; text-decoration:underline;">
+  <div class="container">
+    <h1>ELIZAVETA ALEKSANDROVA</h1>
+
+    <p class="subtitle">
+      QA Engineer | 4 years experience in IAM Testing |
+      <a href="istqb.pdf" target="_blank" class="istqb-link">
         ISTQB certified
       </a>
-    </h3>
+    </p>
 
     <div class="social-media">
-        <a href="https://github.com/Elaleksa" target="_blank"><i class="fab fa-github"></i></a>
-        <a href="https://linkedin.com/in/elaleksa" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+      <a href="https://github.com/Elaleksa" target="_blank" aria-label="GitHub">
+        <i class="fab fa-github"></i>
+      </a>
+      <a href="https://linkedin.com/in/elaleksa" target="_blank" aria-label="LinkedIn">
+        <i class="fab fa-linkedin-in"></i>
+      </a>
     </div>
 
-    <!-- Form -->
     <div class="form-container">
-        <form id="contact-form" action="https://formspree.io/f/mldpdwqv" method="POST">
-            <input type="text" id="message" name="message" maxlength="100"
-                   placeholder="Drop me a quick note…" required>
-            <button type="submit">Beam it up!</button>
-        </form>
-        <div class="success-message" id="success-message">Got it! I’ll check your note soon.</div>
+      <form
+        id="contact-form"
+        action="https://formspree.io/f/mldpdwqv"
+        method="POST"
+      >
+        <!-- Dropdown -->
+        <div class="field">
+          <label class="sr-only" for="topic">Topic</label>
+          <select id="topic" name="topic" required>
+            <option value="" disabled selected>Choose a topic…</option>
+            <option value="job">Job opportunity</option>
+            <option value="networking">Networking</option>
+            <option value="qa">QA collaboration</option>
+          </select>
+        </div>
+
+        <!-- Date -->
+        <div class="field">
+          <label class="sr-only" for="preferred-date">Preferred date</label>
+          <input
+            type="date"
+            id="preferred-date"
+            name="preferred_date"
+            required
+          />
+        </div>
+
+        <!-- Message -->
+        <div class="field">
+          <label class="sr-only" for="message">Message</label>
+          <textarea
+            id="message"
+            name="message"
+            maxlength="300"
+            placeholder="Drop me a quick note…"
+            required
+          ></textarea>
+        </div>
+
+        <!-- Submit -->
+        <button type="submit">Beam it up!</button>
+
+        <!-- Messages -->
+        <div class="success-message" id="success-message">
+          Got it! I’ll check your note soon.
+        </div>
+
+        <div class="error-message" id="error-message">
+          Something went wrong. Please try again.
+        </div>
+      </form>
     </div>
-</div>
+  </div>
 
-<!-- FontAwesome -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-
-<script>
+  <script>
     const form = document.getElementById("contact-form");
     const successMessage = document.getElementById("success-message");
+    const errorMessage = document.getElementById("error-message");
+    const dateInput = document.getElementById("preferred-date");
 
-    form.addEventListener("submit", async function(event) {
+    // min date = today
+    const today = new Date();
+    const yyyy = today.getFullYear();
+    const mm = String(today.getMonth() + 1).padStart(2, "0");
+    const dd = String(today.getDate()).padStart(2, "0");
+    const todayFormatted = `${yyyy}-${mm}-${dd}`;
+    dateInput.min = todayFormatted;
+
+    form.addEventListener("submit", async (event) => {
       event.preventDefault();
+
+      successMessage.style.display = "none";
+      errorMessage.style.display = "none";
+
       const formData = new FormData(form);
 
-      const response = await fetch(form.action, {
-        method: form.method,
-        body: formData,
-        headers: { 'Accept': 'application/json' }
-      });
+      try {
+        const response = await fetch(form.action, {
+          method: form.method,
+          body: formData,
+          headers: { Accept: "application/json" },
+        });
 
-      if (response.ok) {
-        form.reset();
-        successMessage.style.display = "block";
-      } else {
-        alert("Something went wrong. Please try again.");
+        if (response.ok) {
+          form.reset();
+          dateInput.min = todayFormatted;
+          successMessage.style.display = "block";
+        } else {
+          errorMessage.style.display = "block";
+        }
+      } catch {
+        errorMessage.style.display = "block";
       }
     });
-</script>
+  </script>
 </body>
 </html>
