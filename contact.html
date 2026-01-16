@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Contact form | Elizaveta Aleksandrova</title>
+
+    <style>
+        * { box-sizing: border-box; }
+
+        :root {
+          --icon-x: 12px;
+          --icon-space: 40px;
+          --control-height: 44px; /* tap target */
+        }
+
+        body {
+          margin: 0;
+          font-family: Arial, sans-serif;
+          background: #fff;
+          color: #222;
+
+          min-height: 100svh;
+
+          display: flex;
+          justify-content: center;
+
+          align-items: flex-start;
+
+          text-align: center;
+
+          padding: max(16px, env(safe-area-inset-top))
+                   max(16px, env(safe-area-inset-right))
+                   max(16px, env(safe-area-inset-bottom))
+                   max(16px, env(safe-area-inset-left));
+        }
+
+        .container {
+          width: 100%;
+          max-width: 420px;
+          margin-top: 12px; /* keeps it nice from the top */
+        }
+
+        h1 {
+          margin: 0;
+          font-size: clamp(22px, 5.5vw, 28px);
+          letter-spacing: 0.5px;
+        }
+
+        .subtitle {
+          margin: 6px 0 20px;
+          font-size: clamp(14px, 3.8vw, 16px);
+          font-weight: normal;
+          line-height: 1.35;
+        }
+
+        form {
+          display: flex;
+          flex-direction: column;
+          gap: 14px;
+          align-items: center;
+        }
+
+        .field {
+          width: min(320px, 92vw); /* a bit wider on phones */
+        }
+
+        select,
+        input[type="text"].date-input,
+        input[type="date"].date-input,
+        textarea {
+          width: 100%;
+          height: var(--control-height);
+          padding: 10px var(--icon-space) 10px 12px;
+          border-radius: 8px;
+          border: 1px solid #ccc;
+          font-family: inherit;
+          font-size: 16px; /* prevents iOS zoom */
+          background-color: #fff;
+          color: #222;
+
+          -webkit-tap-highlight-color: transparent;
+          touch-action: manipulation;
+        }
+
+        textarea {
+          height: 120px;
+          resize: none;
+          padding-right: 12px;
+        }
+
+        textarea::placeholder {
+          color: #999;
+          font-style: italic;
+        }
+
+        select {
+          appearance: none;
+          -webkit-appearance: none;
+          -moz-appearance: none;
+
+          background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24'%3E%3Cpath fill='%23666' d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+          background-repeat: no-repeat;
+          background-size: 16px 16px;
+          background-position: right var(--icon-x) center;
+        }
+
+        .date-input {
+          background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24'%3E%3Cpath fill='%23666' d='M7 2h2v2h6V2h2v2h3v18H2V4h5V2zm13 8H4v10h16V10z'/%3E%3C/svg%3E");
+          background-repeat: no-repeat;
+          background-size: 16px 16px;
+          background-position: right var(--icon-x) center;
+          cursor: pointer;
+        }
+
+        input[type="date"].date-input::-webkit-calendar-picker-indicator {
+          opacity: 0; /* hide native icon so our custom stays aligned */
+          cursor: pointer;
+        }
+
+        button {
+          margin-top: 6px;
+          padding: 10px 18px;
+          border: none;
+          border-radius: 10px;
+          background: #333;
+          color: #fff;
+          cursor: pointer;
+          font-size: 16px;
+          min-height: 44px;
+          -webkit-tap-highlight-color: transparent;
+          touch-action: manipulation;
+        }
+
+        button:hover { background: #555; }
+
+        button:focus-visible,
+        select:focus-visible,
+        input:focus-visible,
+        textarea:focus-visible {
+          outline: 2px solid #222;
+          outline-offset: 3px;
+        }
+
+        .success {
+          display: none;
+          margin-top: 20px;
+        }
+
+        .success p {
+          color: #006400;
+          font-weight: bold;
+          margin-bottom: 16px;
+          line-height: 1.35;
+        }
+
+        .back-link {
+          display: inline-block;
+          padding: 10px 18px;
+          border-radius: 10px;
+          background: #333;
+          color: #fff;
+          text-decoration: none;
+          min-height: 44px;
+          line-height: 24px;
+          -webkit-tap-highlight-color: transparent;
+          touch-action: manipulation;
+        }
+
+        .back-link:hover { background: #555; }
+
+        @media (min-height: 760px) {
+          body { align-items: center; }
+          .container { margin-top: 0; }
+        }
+    </style>
+</head>
+
+<body>
+<div class="container">
+    <h1>CONTACT FORM</h1>
+    <p class="subtitle">Please fill out the form below</p>
+
+    <form id="contact-form" action="https://formspree.io/f/mldpdwqv" method="POST">
+        <div class="field">
+            <select name="topic" required>
+                <option value="" disabled selected>Choose a topic…</option>
+                <option value="job">Job opportunity</option>
+                <option value="networking">Networking</option>
+                <option value="qa">QA collaboration</option>
+                <option value="other">Other</option>
+            </select>
+        </div>
+
+        <div class="field">
+            <input
+                    type="text"
+                    class="date-input"
+                    id="preferred-date"
+                    name="preferred_date"
+                    placeholder="Select date"
+                    required
+            />
+        </div>
+
+        <div class="field">
+        <textarea
+                name="message"
+                placeholder="Drop me a quick note…"
+                maxlength="300"
+                required
+        ></textarea>
+        </div>
+
+        <button type="submit">Beam it up!</button>
+    </form>
+
+    <div class="success" id="success-message">
+        <p>Your message has been sent successfully.</p>
+        <a href="index.html" class="back-link">Back to profile</a>
+    </div>
+</div>
+
+<script>
+    const form = document.getElementById("contact-form");
+    const successMessage = document.getElementById("success-message");
+    const dateInput = document.getElementById("preferred-date");
+
+    function todayISO() {
+      const t = new Date();
+      const yyyy = t.getFullYear();
+      const mm = String(t.getMonth() + 1).padStart(2, "0");
+      const dd = String(t.getDate()).padStart(2, "0");
+      return `${yyyy}-${mm}-${dd}`;
+    }
+
+    const enableDateMode = () => {
+      if (dateInput.type !== "date") {
+        dateInput.type = "date";
+        dateInput.min = todayISO();
+      }
+      if (typeof dateInput.showPicker === "function") {
+        try { dateInput.showPicker(); } catch (_) {}
+      }
+    };
+
+    const maybeDisableDateMode = () => {
+      if (!dateInput.value) dateInput.type = "text";
+    };
+
+    dateInput.addEventListener("focus", enableDateMode);
+    dateInput.addEventListener("click", enableDateMode);
+    dateInput.addEventListener("blur", maybeDisableDateMode);
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+
+      const formData = new FormData(form);
+
+      try {
+        const response = await fetch(form.action, {
+          method: form.method,
+          body: formData,
+          headers: { Accept: "application/json" }
+        });
+
+        if (response.ok) {
+          form.style.display = "none";
+          successMessage.style.display = "block";
+          // ensure success is visible even with keyboard
+          successMessage.scrollIntoView({ behavior: "smooth", block: "start" });
+        } else {
+          alert("Something went wrong. Please try again.");
+        }
+      } catch {
+        alert("Something went wrong. Please try again.");
+      }
+    });
+</script>
+</body>
+</html>
