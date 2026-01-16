@@ -1,135 +1,119 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Elizaveta Aleksandrova | QA Engineer</title>
+    <meta charset="UTF-8" />
 
-  <!-- CSS -->
-  <link rel="stylesheet" href="styles.css" />
+    <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
 
-  <!-- FontAwesome -->
-  <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
-  />
+    <title>Elizaveta Aleksandrova</title>
+
+    <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
+
+    <style>
+        * { box-sizing: border-box; }
+
+        body {
+          margin: 0;
+          font-family: Arial, sans-serif;
+          background: #fff;
+          color: #222;
+
+          min-height: 100svh;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+
+          text-align: center;
+
+          padding: max(16px, env(safe-area-inset-top))
+                   max(16px, env(safe-area-inset-right))
+                   max(16px, env(safe-area-inset-bottom))
+                   max(16px, env(safe-area-inset-left));
+        }
+
+        main {
+          width: 100%;
+          max-width: 520px;
+        }
+
+        h1 {
+          margin: 0 0 12px;
+          font-size: clamp(26px, 6vw, 34px);
+          letter-spacing: 0.5px;
+        }
+
+        .subtitle {
+          margin: 0 0 18px;
+          font-size: clamp(15px, 3.8vw, 16px);
+          font-weight: normal;
+          line-height: 1.4;
+        }
+
+        .links {
+          display: flex;
+          justify-content: center;
+          gap: 18px;
+          font-size: 22px;
+        }
+
+        .links a {
+          color: #222;
+          text-decoration: none;
+
+          width: 44px;
+          height: 44px;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          border-radius: 10px;
+
+          touch-action: manipulation;
+          -webkit-tap-highlight-color: transparent;
+        }
+
+        .links a:focus-visible {
+          outline: 2px solid #222;
+          outline-offset: 3px;
+        }
+
+        @media (max-height: 520px) {
+          body {
+            align-items: flex-start;
+          }
+          main {
+            margin-top: 12px;
+          }
+        }
+    </style>
 </head>
 
 <body>
-  <div class="container">
+<main>
     <h1>ELIZAVETA ALEKSANDROVA</h1>
 
     <p class="subtitle">
-      QA Engineer | 4 years experience in IAM Testing |
-      <a href="istqb.pdf" target="_blank" class="istqb-link">
-        ISTQB certified
-      </a>
+        QA Engineer | 4 years experience in IAM Testing | ISTQB certified
     </p>
 
-    <div class="social-media">
-      <a href="https://github.com/Elaleksa" target="_blank" aria-label="GitHub">
-        <i class="fab fa-github"></i>
-      </a>
-      <a href="https://linkedin.com/in/elaleksa" target="_blank" aria-label="LinkedIn">
-        <i class="fab fa-linkedin-in"></i>
-      </a>
+    <div class="links">
+        <a href="https://github.com/Elaleksa" target="_blank" aria-label="GitHub">
+            <i class="fab fa-github"></i>
+        </a>
+
+        <a href="https://linkedin.com/in/elaleksa" target="_blank" aria-label="LinkedIn">
+            <i class="fab fa-linkedin-in"></i>
+        </a>
+
+        <a href="contact.html" aria-label="Contact form">
+            <i class="fas fa-envelope"></i>
+        </a>
     </div>
-
-    <div class="form-container">
-      <form
-        id="contact-form"
-        action="https://formspree.io/f/mldpdwqv"
-        method="POST"
-      >
-        <!-- Dropdown -->
-        <div class="field">
-          <label class="sr-only" for="topic">Topic</label>
-          <select id="topic" name="topic" required>
-            <option value="" disabled selected>Choose a topic…</option>
-            <option value="job">Job opportunity</option>
-            <option value="networking">Networking</option>
-            <option value="qa">QA collaboration</option>
-          </select>
-        </div>
-
-        <!-- Date -->
-        <div class="field">
-          <label class="sr-only" for="preferred-date">Preferred date</label>
-          <input
-            type="date"
-            id="preferred-date"
-            name="preferred_date"
-            required
-          />
-        </div>
-
-        <!-- Message -->
-        <div class="field">
-          <label class="sr-only" for="message">Message</label>
-          <textarea
-            id="message"
-            name="message"
-            maxlength="300"
-            placeholder="Drop me a quick note…"
-            required
-          ></textarea>
-        </div>
-
-        <!-- Submit -->
-        <button type="submit">Beam it up!</button>
-
-        <!-- Messages -->
-        <div class="success-message" id="success-message">
-          Got it! I’ll check your note soon.
-        </div>
-
-        <div class="error-message" id="error-message">
-          Something went wrong. Please try again.
-        </div>
-      </form>
-    </div>
-  </div>
-
-  <script>
-    const form = document.getElementById("contact-form");
-    const successMessage = document.getElementById("success-message");
-    const errorMessage = document.getElementById("error-message");
-    const dateInput = document.getElementById("preferred-date");
-
-    // min date = today
-    const today = new Date();
-    const yyyy = today.getFullYear();
-    const mm = String(today.getMonth() + 1).padStart(2, "0");
-    const dd = String(today.getDate()).padStart(2, "0");
-    const todayFormatted = `${yyyy}-${mm}-${dd}`;
-    dateInput.min = todayFormatted;
-
-    form.addEventListener("submit", async (event) => {
-      event.preventDefault();
-
-      successMessage.style.display = "none";
-      errorMessage.style.display = "none";
-
-      const formData = new FormData(form);
-
-      try {
-        const response = await fetch(form.action, {
-          method: form.method,
-          body: formData,
-          headers: { Accept: "application/json" },
-        });
-
-        if (response.ok) {
-          form.reset();
-          dateInput.min = todayFormatted;
-          successMessage.style.display = "block";
-        } else {
-          errorMessage.style.display = "block";
-        }
-      } catch {
-        errorMessage.style.display = "block";
-      }
-    });
-  </script>
+</main>
 </body>
 </html>
